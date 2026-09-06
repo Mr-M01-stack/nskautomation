@@ -133,7 +133,7 @@
   /* ---------- Contact form -> Formspree email ---------- */
   var form = document.getElementById("contactForm");
   if (form) {
-    var FORM_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
+    var FORM_ENDPOINT = "https://formspree.io/f/xjyvewew";
     var statusEl = document.getElementById("formStatus");
     var sendBtn = document.getElementById("f-send");
 
