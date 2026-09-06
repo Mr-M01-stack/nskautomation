@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DNS Setup — nskautomation.co.in (print this)</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1a1f36; margin: 24px auto; max-width: 760px; padding: 0 16px; line-height: 1.5; }
+  h1 { font-size: 1.5rem; margin: 8px 0 4px; }
+  h2 { font-size: 1.15rem; margin: 26px 0 8px; border-bottom: 2px solid #0d40d0; padding-bottom: 4px; }
+  p, li { font-size: 0.98rem; }
+  .warn { background: #fff4d6; border: 1px solid #e0b64c; border-radius: 6px; padding: 10px 14px; }
+  ol.steps > li { margin-bottom: 12px; }
+  table { border-collapse: collapse; width: 100%; margin: 10px 0; font-family: Consolas, monospace; font-size: 0.95rem; }
+  th, td { border: 1px solid #c3c9d9; padding: 8px 10px; text-align: left; }
+  th { background: #0d40d0; color: #fff; }
+  code { background: #eef1f8; padding: 1px 6px; border-radius: 4px; font-family: Consolas, monospace; font-size: 0.9em; }
+  .ip { font-family: Consolas, monospace; background: #eef1f8; padding: 1px 6px; border-radius: 4px; }
+  .hint { color: #4a5578; font-size: 0.92rem; }
+  @media print { body { margin: 0 auto; } .no-print { display: none; } }
+</style>
+</head>
+<body>
+
+  <p class="no-print" style="text-align:right"><button onclick="window.print()">🖨️ Print this page</button></p>
+
+  <h1>Point nskautomation.co.in at GitHub Pages</h1>
+  <p>
+    Done in the <strong>client's GoDaddy account</strong> (the account that owns the domain).
+    One-time setup, about <strong>10–15 minutes</strong>. The website then runs free on GitHub Pages.
+  </p>
+
+  <div class="warn">
+    <strong>IMPORTANT — do not touch email records.</strong> If you see MX, TXT (SPF/DKIM)
+    or other records in the DNS table, <strong>leave them exactly as they are</strong>.
+    We are only changing the website records (type <strong>A</strong> and type <strong>CNAME</strong>).
+    Email is separate and keeps working.
+  </div>
+
+  <h2>Steps</h2>
+  <ol class="steps">
+    <li>Log in at <strong>godaddy.com</strong> with the account that owns <code>nskautomation.co.in</code>.</li>
+    <li>Go to <strong>My Products</strong> → next to the domain click <strong>…</strong> (or <strong>Manage</strong>)
+        → <strong>Manage DNS</strong>.
+      <div class="hint">Alternative path: top menu <strong>Domains</strong> → click the domain name → <strong>DNS</strong>.</div>
+    </li>
+    <li>On the <strong>DNS Records / Records</strong> page you'll see a table.</li>
+    <li>
+      Find any record with <strong>Type A and Host @</strong> whose value is a GoDaddy parking IP
+      (something like <span class="ip">97.74.x.x</span> or <span class="ip">184.168.x.x</span>).
+      These were auto-created when the domain was bought.
+      <strong>Delete those A records only</strong> — nothing else.
+    </li>
+    <li>
+      <strong>Add 4 new A records</strong> — one row each, using the <strong>Add Record</strong> button:
+      <table>
+        <thead><tr><th>Type</th><th>Name/Host</th><th>Value</th><th>TTL</th></tr></thead>
+        <tbody>
+          <tr><td>A</td><td>@</td><td>185.199.108.153</td><td>1 hour</td></tr>
+          <tr><td>A</td><td>@</td><td>185.199.109.153</td><td>1 hour</td></tr>
+          <tr><td>A</td><td>@</td><td>185.199.110.153</td><td>1 hour</td></tr>
+          <tr><td>A</td><td>@</td><td>185.199.111.153</td><td>1 hour</td></tr>
+        </tbody>
+      </table>
+    </li>
+    <li>
+      <strong>Add 1 CNAME record:</strong>
+      <table>
+        <thead><tr><th>Type</th><th>Name/Host</th><th>Value</th><th>TTL</th></tr></thead>
+        <tbody>
+          <tr><td>CNAME</td><td>www</td><td>Mr-M01-stack.github.io</td><td>1 hour</td></tr>
+        </tbody>
+      </table>
+    </li>
+    <li>
+      Remove the old parking record (if any) for <code>www</code> pointing at the domain itself
+      (a CNAME like <code>www → nskautomation.co.in</code>).
+      <strong>Do not</strong> remove anything that looks like email or "verify" records.
+    </li>
+    <li>Click <strong>Save / Save Changes</strong>.</li>
+  </ol>
+
+  <h2>After saving</h2>
+  <ul>
+    <li>Changes usually spread in <strong>15 minutes to a few hours</strong> (rarely up to 24–48 h).</li>
+    <li>The website then goes live at <strong>https://www.nskautomation.co.in</strong> (HTTPS is free and automatic).</li>
+    <li>Visiting the bare domain <strong>nskautomation.co.in</strong> automatically forwards to <code>www</code>.</li>
+    <li>Nothing else is needed on the GitHub side — the site is already configured.</li>
+  </ul>
+
+  <h2>What this does NOT affect</h2>
+  <ul>
+    <li><strong>Email:</strong> if the client's <code>@nskautomation.co.in</code> mail is with GoDaddy, it keeps working.
+        If email isn't activated yet, activate it in GoDaddy's <strong>Email / My Email</strong> area —
+        GoDaddy adds the needed MX/TXT records itself.</li>
+    <li><strong>Domain renewal &amp; protection:</strong> unaffected — still managed in GoDaddy under the client's account.</li>
+  </ul>
+
+</body>
+</html>
