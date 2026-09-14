@@ -57,13 +57,13 @@ WebP where transparency matters, JPEG for photos, all lazy-loaded below the fold
 | File | Played by |
 |---|---|
 | `pvc-welding-01/02/03.mp4` | PVC Welding card (Clip 1/2/3) |
-| `tata-electronics-project.mp4` | Tata Electronics card (inline) |
 | `paper-machine.mp4` | Paper Machine |
 | `rotary-welding.mp4` | Rotary Welding |
 
-Full-res originals are kept in `backup/full-res-videos/` — do not commit them
-(they exceed GitHub's 100MB/file and 1GB site limit). Rubber cutting video stays
-"Video coming soon" until an MP4 is provided (see CONTENT.md §3).
+> Removed per client (kept in `backup/parked-content/`): `tata-electronics-project.mp4`,
+> `mahindra-01..04.jpg`. Full-res originals are in `backup/full-res-videos/` — do not
+> commit them (they exceed GitHub's 100MB/file and 1GB site limit). Rubber cutting video
+> stays "Video coming soon" until an MP4 is provided (see CONTENT.md §3).
 
 ## Enquiry form
 
