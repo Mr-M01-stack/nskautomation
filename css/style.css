@@ -864,6 +864,87 @@ a { color: var(--blue); text-decoration: none; }
 .card-video { max-height: 100%; }
 
 /* ============================================================
+   PHOTO CARDS + THUMB STRIP (repair & service / projects)
+   ============================================================ */
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.photo-card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+.photo-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(77, 148, 255, .5);
+}
+
+.photo-media {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg1);
+}
+
+.photo-media img {
+  width: 100%;
+  aspect-ratio: 16/10;
+  object-fit: cover;
+  transition: transform .35s ease;
+}
+
+.photo-card:hover .photo-media img { transform: scale(1.06); }
+
+.photo-body { padding: 22px 22px 24px; display: flex; flex-direction: column; flex: 1; }
+
+.photo-body h3 { color: var(--ink); font-size: 1.08rem; margin: 0 0 6px; }
+
+.photo-body p { color: var(--muted); font-size: .94rem; margin: 0; }
+
+.thumb-strip {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  z-index: 3;
+  display: flex;
+  gap: 6px;
+  padding: 10px;
+  overflow-x: auto;
+  background: linear-gradient(180deg, rgba(3, 8, 18, 0), rgba(3, 8, 18, .72));
+  scrollbar-width: none;
+}
+
+.thumb-strip::-webkit-scrollbar { display: none; }
+
+.thumb {
+  flex: 0 0 auto;
+  width: 46px;
+  height: 34px;
+  padding: 0;
+  border: 2px solid rgba(255, 255, 255, .35);
+  border-radius: 5px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, .12);
+  opacity: .75;
+  cursor: pointer;
+  transition: opacity .15s ease, border-color .15s ease;
+}
+
+.thumb:hover { opacity: 1; }
+
+.thumb.is-active { opacity: 1; border-color: var(--azure); }
+
+.thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* ============================================================
    COMMITMENT
    ============================================================ */
 .commitment { background-color: var(--bg0); padding: 140px 0 100px; }
@@ -1180,6 +1261,7 @@ a { color: var(--blue); text-decoration: none; }
   .card-grid.four { grid-template-columns: repeat(2, 1fr); }
   .steps { grid-template-columns: repeat(2, 1fr); }
   .project-grid { grid-template-columns: repeat(2, 1fr); }
+  .photo-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 860px) {
@@ -1212,7 +1294,7 @@ a { color: var(--blue); text-decoration: none; }
 }
 
 @media (max-width: 640px) {
-  .card-grid.four, .card-grid.three, .steps { grid-template-columns: 1fr; }
+  .card-grid.four, .card-grid.three, .steps, .photo-grid { grid-template-columns: 1fr; }
   .project-grid { grid-template-columns: 1fr; }
   .form-row { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; }

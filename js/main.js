@@ -181,3 +181,16 @@
     });
   }
 })();
+document.addEventListener("click", function (e) {
+  var thumb = e.target.closest(".thumb[data-full]");
+  if (!thumb) return;
+  var strip = thumb.closest(".thumb-strip");
+  if (!strip) return;
+  var media = strip.closest(".photo-media, .project-media");
+  var main = media && media.querySelector("img");
+  if (!main) return;
+  main.src = thumb.getAttribute("data-full");
+  Array.prototype.forEach.call(strip.querySelectorAll(".thumb"), function (t) {
+    t.classList.toggle("is-active", t === thumb);
+  });
+});
