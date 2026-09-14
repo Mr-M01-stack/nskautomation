@@ -143,8 +143,11 @@
       statusEl.hidden = false;
     };
 
+    var honey = document.getElementById("f-honey");
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
+      if (honey && honey.value) return;
       if (FORM_ENDPOINT.indexOf("YOUR_FORM_ID") !== -1) {
         report("error", "Form is not configured yet. Please contact us directly by phone or email.");
         return;
