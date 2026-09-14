@@ -893,12 +893,17 @@ a { color: var(--blue); text-decoration: none; }
   position: relative;
   overflow: hidden;
   background: var(--bg1);
+  aspect-ratio: 1/1;
+  display: grid;
+  place-items: center;
 }
 
 .photo-media img {
-  width: 100%;
-  aspect-ratio: 16/10;
-  object-fit: cover;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
   transition: transform .35s ease;
 }
 
