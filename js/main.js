@@ -181,16 +181,68 @@
     });
   }
 })();
-document.addEventListener("click", function (e) {
-  var thumb = e.target.closest(".thumb[data-full]");
-  if (!thumb) return;
-  var strip = thumb.closest(".thumb-strip");
-  if (!strip) return;
-  var media = strip.closest(".photo-media, .project-media");
-  var main = media && media.querySelector("img");
-  if (!main) return;
-  main.src = thumb.getAttribute("data-full");
-  Array.prototype.forEach.call(strip.querySelectorAll(".thumb"), function (t) {
-    t.classList.toggle("is-active", t === thumb);
+(function () {
+  var STRIP_SEL = ".thumb-strip";
+  var INTERVAL = 3000;
+
+  function select(thumb) {
+    var strip = thumb.closest(STRIP_SEL);
+    if (!strip) return;
+    var media = strip.closest(".photo-media, .project-media");
+    var main = media && media.querySelector("img");
+    if (!main) return;
+    main.src = thumb.getAttribute("data-full");
+    main.classList.remove("card-fade");
+    void main.offsetWidth;
+    main.classList.add("card-fade");
+    Array.prototype.forEach.call(strip.querySelectorAll(".thumb"), function (t) {
+      t.classList.toggle("is-active", t === thumb);
+    });
+  }
+
+  function next(strip) {
+    var thumbs = strip.querySelectorAll(".thumb");
+    var active = strip.querySelector(".thumb.is-active");
+    var idx = Array.prototype.indexOf.call(thumbs, active);
+    var n = (idx + 1) % thumbs.length;
+    if (thumbs[n]) select(thumbs[n]);
+  }
+
+  function start(strip) {
+    stop(strip);
+    strip._nsktimer = setInterval(function () { next(strip); }, INTERVAL);
+  }
+
+  function stop(strip) {
+    if (strip._nsktimer) { clearInterval(strip._nsktimer); strip._nsktimer = null; }
+  }
+
+  document.addEventListener("click", function (e) {
+    var thumb = e.target.closest(".thumb[data-full]");
+    if (!thumb) return;
+    select(thumb);
+    var strip = thumb.closest(STRIP_SEL);
+    if (strip && strip._nsktimer) start(strip);
   });
-});
+
+  document.addEventListener("visibilitychange", function () {
+    Array.prototype.forEach.call(document.querySelectorAll(STRIP_SEL), function (s) {
+      if (document.hidden) stop(s);
+      else if (s.querySelectorAll(".thumb").length > 1) start(s);
+    });
+  });
+
+  var io = ("IntersectionObserver" in window) ? new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (en.isIntersecting) start(en.target);
+      else stop(en.target);
+    });
+  }, { threshold: 0.25 }) : null;
+
+  Array.prototype.forEach.call(document.querySelectorAll(STRIP_SEL), function (s) {
+    if (s.querySelectorAll(".thumb").length > 1) {
+      if (io) io.observe(s);
+      else start(s);
+    }
+  });
+})();
